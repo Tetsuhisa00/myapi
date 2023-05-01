@@ -29,6 +29,11 @@ func main() {
     postNiceHandler := func(w http.ResponseWriter, req *http.Request) {
         io.WriteString(w, "Posting Nice...\n")
     }
+    
+    postCommentHandler := func(w http.ResponseWriter, req *http.Request) {
+        io.WriteString(w, "Posting Comment...\n")
+    }
+
 
 
     http.HandleFunc("/hello", helloHandler)
@@ -36,6 +41,7 @@ func main() {
     http.HandleFunc("/article/list", listArticleHandler)
     http.HandleFunc("/article/1", articleDetailHandler)
     http.HandleFunc("/article/nice",  postNiceHandler)
+    http.HandleFunc("/article/comment", postCommentHandler)
 
 
     log.Println("server start at port 8080")

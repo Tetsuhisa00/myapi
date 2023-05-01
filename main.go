@@ -7,8 +7,6 @@ import (
 )
 
 func main() {
-    
-
 
     http.HandleFunc("/hello", handlers.HelloHandler)
     http.HandleFunc("/article", handlers.PostArticleHandler)
@@ -17,6 +15,12 @@ func main() {
     http.HandleFunc("/article/nice", handlers.PostNiceHandler)
     http.HandleFunc("/comment", handlers.PostCommentHandler)
 
+
+ // I'm done at 47 pages 4/30/2023
+
+
     log.Println("server start at port 8080")
     log.Fatal(http.ListenAndServe(":8080", nil))
+
 }
+

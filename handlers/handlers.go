@@ -1,16 +1,13 @@
-
 package handlers
 
-
-
 import (
-   "fmt"
-   "io"
-   "net/http"
-   "strconv"
-   "github.com/gorilla/mux"
-)
+	"fmt"
+	"io"
+	"net/http"
+	"strconv"
 
+	"github.com/gorilla/mux"
+)
 
 // /hello のハンドラ
 func HelloHandler(w http.ResponseWriter, req *http.Request) {
@@ -28,8 +25,21 @@ func PostArticleHandler(w http.ResponseWriter, req *http.Request) {
 
 // /article/list のハンドラ
 func ArticleListHandler(w http.ResponseWriter, req *http.Request) {
+    queryMap := req.URL.Query()
+    var page int
+    if p, ok := queryMap["page"]; ok && len(p) > 0 {
+        var err error
+        page, err = strconv.Atoi(p[0])
+        if err != nil {
+            http.Error(w, "Invalid query parameter", http.StatusBadRequest)
+            return 
+        }
+    } else {
+        page = 1
+    }
 
-    io.WriteString(w, "Article List\n")
+    resString := fmt.Sprintf("Article List (Page %d)\n", page)
+    io.WriteString(w, resString)
 }
 
 

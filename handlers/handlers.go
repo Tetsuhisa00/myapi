@@ -78,12 +78,7 @@ func ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
 // /article/nice のハンドラ
 func PostNiceHandler(w http.ResponseWriter, req *http.Request) {
     article := models.Article1
-    jsonData, err := json.Marshal(article)
-    if err != nil {
-        http.Error(w, "fails to encode json\n", http.StatusInternalServerError)
-        return 
-    }
-    w.Write(jsonData)
+    json.NewEncoder(w).Encode(article)
 }
 
 

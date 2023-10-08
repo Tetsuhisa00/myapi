@@ -54,7 +54,7 @@ func ArticleListHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 
-// /article/1 のハンドラ
+// /article/:id のハンドラ
 func ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
     articleID , err := strconv.Atoi(mux.Vars(req)["id"])
     if err != nil {
@@ -62,7 +62,9 @@ func ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
         return 
     }
     log.Println(articleID)
+
     article := models.Article1
+
     json.NewEncoder(w).Encode(article)
 }
 
@@ -70,13 +72,21 @@ func ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
 
 // /article/nice のハンドラ
 func PostNiceHandler(w http.ResponseWriter, req *http.Request) {
-    article := models.Article1
+    var reqArticle models.Article
+    if err := json.NewDecoder(req.Body).Decode(&reqArticle); err != nil {
+        http.Error(w, "fails to encode json\n", http.StatusBadRequest)
+        return 
+    }
+    article := reqArticle
     json.NewEncoder(w).Encode(article)
 }
 
-
 // /comment のハンドラ
 func PostCommentHandler(w http.ResponseWriter, req *http.Request) {
-    comment := models.Comment1
+    var reqComment models.Comment
+    if err := json.NewDecoder(req.Body).Decode(&reqComment); err != nil {
+        http.Error(w, "fail to decode json\n", http.StatusBadRequest)
+    }
+    comment := reqComment
     json.NewEncoder(w).Encode(comment)
 }

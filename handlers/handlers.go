@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -62,15 +61,9 @@ func ArticleDetailHandler(w http.ResponseWriter, req *http.Request) {
         http.Error(w, "Invalid query parameter", http.StatusBadRequest)
         return 
     }
+    log.Println(articleID)
     article := models.Article1
-    jsonData, err := json.Marshal(article)
-    if err != nil {
-        errMsg := fmt.Sprintf("fail to encode json (articleID %d)\n", articleID)
-        http.Error(w, errMsg, http.StatusInternalServerError)
-        return 
-    }
-    w.Write(jsonData)
-
+    json.NewEncoder(w).Encode(article)
 }
 
 
@@ -85,10 +78,5 @@ func PostNiceHandler(w http.ResponseWriter, req *http.Request) {
 // /comment のハンドラ
 func PostCommentHandler(w http.ResponseWriter, req *http.Request) {
     comment := models.Comment1
-    jsonData, err := json.Marshal(comment)
-    if err != nil {
-        http.Error(w, "fails to encode json\n", http.StatusInternalServerError)
-        return 
-    }
-    w.Write(jsonData)
+    json.NewEncoder(w).Encode(comment)
 }
